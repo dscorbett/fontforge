@@ -2625,9 +2625,12 @@ extern bool isSplinePointPartOfGuide( SplineFont *sf, SplinePoint *sp );
 
 extern void debug_printHint( StemInfo *h, char* msg );
 
-#if defined(_WIN32) || defined(__HAIKU__)
 #define BAD_LOCALE_HACK
+#if defined(_WIN32) || defined(__HAIKU__)
 typedef char* locale_t;
+#else
+typedef struct _xlocale* locale_t;
+#endif
 #define LC_GLOBAL_LOCALE ((locale_t)-1)
 #define LC_ALL_MASK LC_ALL
 #define LC_COLLATE_MASK LC_COLLATE
@@ -2635,7 +2638,6 @@ typedef char* locale_t;
 #define LC_MONETARY_MASK LC_MONETARY
 #define LC_NUMERIC_MASK LC_NUMERIC
 #define LC_TIME_MASK LC_TIME
-#endif
 
 static inline void switch_to_c_locale(locale_t * tmplocale_p, locale_t * oldlocale_p) {
 #ifndef BAD_LOCALE_HACK
